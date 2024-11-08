@@ -22,12 +22,12 @@ const mutations = {
     state.datas.unshift(item)
   },
   UPDATE_ITEM(state, data) {
-    // console.log(state)
-    // console.log(data.id)
-    // const Index = state.datas.findIndex((p) => p.id == data.id);
+    console.log(state)
+    console.log(data.id)
+    const Index = state.datas.findIndex((p) => p.id == data.id);
     // console.log(Index)
     // console.log(state.datas)
-    // Object.assign(state.datas[Index], data);
+    Object.assign(state.datas[Index], data);
   },
   DELETE_ITEM(state, data) {
     data.forEach(id => {
@@ -104,31 +104,53 @@ const actions = {
     });
   },
   async process({ commit }, data) {
-    try {
-      // Tentukan tipe transaksi berdasarkan apakah ID ada atau tidak
-      const transactionType = data.id ? "update" : "add";
+    const transactionType = data.id ? "update" : "add";
+    // console.log(transactionType)
+
+    return new Promise((resolve, reject) => {
+      axios.post("/api/menu-management/" + transactionType, data.formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+      })
+        .then(response => {       
+          // commit('SET_PARENTS', response.data)        
+          if (data.id) {
+            commit("UPDATE_ITEM", response.data.datas); 
+            // console.log(response.data.datas)// Pastikan struktur data benar
+          } else {
+            commit("ADD_ITEM", response.data.datas); // Pastikan struktur data benar
+          }   
+          resolve(response.data.datas);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+    
+    // try {
+    //   // Tentukan tipe transaksi berdasarkan apakah ID ada atau tidak
+    //   const transactionType = data.id ? "update" : "add";
       
-      // Gunakan axios untuk mengirimkan request POST dan tunggu responsenya
-      // console.log(data.id)
-      // console.log(data.formData)
-      const response = await axios.post("/api/menu-management/" + transactionType, data.formData);
+    //   // Gunakan axios untuk mengirimkan request POST dan tunggu responsenya
+    //   const response = await axios.post("/api/menu-management/" + transactionType, data.formData);
   
-      // Jika ID ada, lakukan update, jika tidak, lakukan add
-      if (data.id) {
-        commit("UPDATE_ITEM", response.data.datas); 
-        // console.log(response.data.datas)// Pastikan struktur data benar
-      } else {
-        commit("ADD_ITEM", response.data.datas); // Pastikan struktur data benar
-      }
+    //   // Jika ID ada, lakukan update, jika tidak, lakukan add
+    //   if (data.id) {
+    //     commit("UPDATE_ITEM", response.data.datas); 
+    //     // console.log(response.data.datas)// Pastikan struktur data benar
+    //   } else {
+    //     commit("ADD_ITEM", response.data.datas); // Pastikan struktur data benar
+    //   }
   
-      // Mengembalikan respons jika berhasil
-      // console.log(response)
-      return response;
+    //   // Mengembalikan respons jika berhasil
+    //   // console.log(response)
+    //   return response;
   
-    } catch (error) {
-      // Jika terjadi error, lemparkan ke catch
-      throw error;
-    }
+    // } catch (error) {
+    //   // Jika terjadi error, lemparkan ke catch
+    //   throw error;
+    // }
   
   
   },

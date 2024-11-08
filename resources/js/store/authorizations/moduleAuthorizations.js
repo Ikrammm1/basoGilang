@@ -46,31 +46,54 @@ const actions = {
       throw error
     }
   },
-  async process({ commit }, data) {
-    try {
-      // Tentukan tipe transaksi berdasarkan apakah ID ada atau tidak
-      const transactionType = data.id ? "update" : "add";
+  // async process({ commit }, data) {
+  //   try {
+  //     // Tentukan tipe transaksi berdasarkan apakah ID ada atau tidak
+  //     const transactionType = data.id ? "update" : "add";
       
-      // Gunakan axios untuk mengirimkan request POST dan tunggu responsenya
-      const response = await axios.post("/api/authorization-group/" + transactionType, data.formData);
+  //     // Gunakan axios untuk mengirimkan request POST dan tunggu responsenya
+  //     const response = await axios.post("/api/authorization-group/" + transactionType, data.formData);
   
-      // Jika ID ada, lakukan update, jika tidak, lakukan add
-      if (data.id) {
-        commit("UPDATE_ITEM", response.data.datas); // Pastikan struktur data benar
-      } else {
-        commit("ADD_ITEM", response.data.datas); // Pastikan struktur data benar
-      }
+  //     // Jika ID ada, lakukan update, jika tidak, lakukan add
+  //     if (data.id) {
+  //       commit("UPDATE_ITEM", response.data.datas); // Pastikan struktur data benar
+  //     } else {
+  //       commit("ADD_ITEM", response.data.datas); // Pastikan struktur data benar
+  //     }
   
-      // Mengembalikan respons jika berhasil
-      // console.log(response)
-      return response;
+  //     // Mengembalikan respons jika berhasil
+  //     // console.log(response)
+  //     return response;
   
-    } catch (error) {
-      // Jika terjadi error, lemparkan ke catch
-      throw error;
-    }
+  //   } catch (error) {
+  //     // Jika terjadi error, lemparkan ke catch
+  //     throw error;
+  //   }
   
   
+  // },
+
+  async process({ commit }, data) {
+    const transactionType = data.id ? "update" : "add";
+
+    return new Promise((resolve, reject) => {
+      axios.post("/api/authorization-group/" + transactionType, data.formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+      })
+        .then(response => {         
+          if (data.id) {
+            commit("UPDATE_ITEM", response.data.datas); 
+          } else {
+            commit("ADD_ITEM", response.data.datas); 
+          }   
+          resolve(response.data.datas);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   },
   delete({commit}, data){
     // console.log(data.id)

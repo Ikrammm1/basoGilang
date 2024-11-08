@@ -125,7 +125,7 @@ class MenuController extends Controller
             'name'=>'string',
             'user_id'=>'string'
         ]);
-        dd($request);
+        // dd($request);
         $update = null;
         try{    
             DB::transaction(function () use ($request, &$update) {
