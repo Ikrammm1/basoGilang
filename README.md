@@ -1,3 +1,6 @@
+# About System
+This template should help you started web for conten management system with default dynamic menus and authorization user. You can use this system and costomize  it to you need
+
 # vue
 
 This template should help get you started developing with Vue 3 in Vite.
