@@ -1,5 +1,5 @@
 # About System
-This template should help you started web for conten management system with default dynamic menus and authorization user. You can use this system and costomize  it to you need
+This template should help you started web for content management system with default dynamic menus and authorization user. You can use this system and costomize  it to you need
 
 # vue
 
