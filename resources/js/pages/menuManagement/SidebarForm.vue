@@ -276,12 +276,12 @@ const { notify }  = useNotification()
                     (item) => item == category
                 )[0];
 
-                // console.log(parent)
-                this.selectedParent =  this.selectedCat != "Header" ? this.parent.find(
-                    (item) => item.id == parent.id
-                  ).id
-                  : ""
-                // console.log( this.selectedParent)
+                console.log(this.mapParent)
+                // this.selectedParent =  this.selectedCat != "Header" ? this.mapParent.find(
+                //     (item) => item.id == parent.id
+                //   ).id
+                //   : ""
+                console.log( this.selectedParent)
             }
             
         },
