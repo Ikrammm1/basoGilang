@@ -48,13 +48,24 @@ export const routes = [
         // component: () => import("./Pages/authorizationGroup/Index.vue")
         component: () => import('@/pages/authorizationGroup/Index.vue'),
        },
-       //===============AUTHORIZATION GROUP=============== 
+       //===============REPORRT BY YEAR=============== 
 
       { path: 'report/byyear', 
         name: 'ReportByYear', 
         // component: () => import("./Pages/report/Index.vue")
         component: () => import('@/pages/form-layouts.vue'),
        },
+       //===============REPORRT BY YEAR=============== 
+
+      { path: 'user-management', 
+        name: 'UserManagement', 
+        // component: () => import("./Pages/report/Index.vue")
+        component: () => import('@/pages/userApp/Index.vue'),
+
+       },
+
+
+       //END
     ],
   },
   {
