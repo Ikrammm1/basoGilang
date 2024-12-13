@@ -24,7 +24,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $user = User::where('email', $request->email)->firstOrFail();
+        $user = User::where('email', $request->email)->with('userPosition')->firstOrFail();
         $userAuth = User::with(['Authorizations.headerMenus', 'Authorizations.Items','Authorizations.Submenu'])->find($user->id);
 
         // Mengumpulkan semua menu header
