@@ -1,10 +1,16 @@
 <script setup>
-import { useTheme } from 'vuetify'
-import illustrationJohnDark from '@images/cards/illustration-john-dark.png'
-import illustrationJohnLight from '@images/cards/illustration-john-light.png'
+import illustrationJohnDark from '@images/cards/illustration-john-dark.png';
+import illustrationJohnLight from '@images/cards/illustration-john-light.png';
+import { ref } from "vue";
+import { useTheme } from 'vuetify';
 
 const { global } = useTheme()
 const illustrationJohn = computed(() => global.name.value === 'dark' ? illustrationJohnDark : illustrationJohnLight)
+let userName = ref('')
+
+
+userName = (JSON.parse(localStorage.getItem('userData')).name)
+
 </script>
 
 <template>
@@ -18,7 +24,7 @@ const illustrationJohn = computed(() => global.name.value === 'dark' ? illustrat
       >
         <VCardItem class="pb-3">
           <VCardTitle class="text-primary">
-            Congratulations John! 🎉
+            Welcome back {{userName}} 🎉
           </VCardTitle>
         </VCardItem>
 
