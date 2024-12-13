@@ -180,6 +180,7 @@ style="z-index: 99;"
                         title: 'Delete Data?',
                         text: "Are you sure you want to delete this item!",
                         icon: 'warning',
+                        color: 'black',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',

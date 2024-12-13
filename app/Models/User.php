@@ -79,5 +79,10 @@ class User extends Authenticatable
         return $this->belongsToMany(AuthorizationGroup::class, 'cms_user_auth_groups', 'user_id', 'group_id');
     }
 
+    public function userPosition()
+    {
+        return $this->hasMany('App\Models\MasPositions', 'mp_code', 'position_code');
+    }
+
     
 }
