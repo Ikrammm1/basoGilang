@@ -1,6 +1,6 @@
 <script setup>
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue';
-import logo from '@images/logo.svg?raw';
+import logocms from '@images/cmslogo1.png';
 import authV1BottomShape from '@images/svg/auth-v1-bottom-shape.svg?url';
 import authV1TopShape from '@images/svg/auth-v1-top-shape.svg?url';
 import { ref } from "vue";
@@ -107,14 +107,17 @@ function hidden(){
             to="/"
             class="app-logo"
           >
-            
-            <div
-              class="d-flex"
-              v-html="logo"
-            />
-            <h1 class="app-logo-title">
+          <VAvatar
+            class="cursor-pointer"
+            color="primary"
+            variant="tonal" 
+            size="80"
+          >
+            <VImg :src="logocms" />
+          </VAvatar>
+            <!-- <h1 class="app-logo-title">
               CMS
-            </h1>
+            </h1> -->
           </RouterLink>
         </VCardItem>
 

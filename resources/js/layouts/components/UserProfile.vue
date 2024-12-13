@@ -133,15 +133,9 @@ let userName = ref('')
 let position = ref('')
 let photo = ref('')
 
-console.log(JSON.parse(localStorage.getItem('userData')))
 userName = (JSON.parse(localStorage.getItem('userData')).name)
 photo = (JSON.parse(localStorage.getItem('userData')).photo)
 position = (JSON.parse(localStorage.getItem('userData')).user_position[0].mp_name)
-
-console.log(photo)
-
-
-
 
 function logout() {
   try {

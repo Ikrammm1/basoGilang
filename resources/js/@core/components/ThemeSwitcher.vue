@@ -1,5 +1,5 @@
 <script setup>
-import { useTheme } from 'vuetify'
+import { useTheme } from 'vuetify';
 
 const props = defineProps({
   themes: {
@@ -13,17 +13,25 @@ const {
   global: globalTheme,
 } = useTheme()
 
+const savedTheme = localStorage.getItem('theme')? localStorage.getItem('theme'): globalTheme.name.value
+globalTheme.name.value = savedTheme
+
 const {
   state: currentThemeName,
   next: getNextThemeName,
   index: currentThemeIndex,
-} = useCycleList(props.themes.map(t => t.name), { initialValue: themeName })
+} = useCycleList(
+  props.themes.map((t) => t.name),
+  { initialValue: savedTheme }
+);
+
 
 const changeTheme = () => {
   globalTheme.name.value = getNextThemeName()
+  localStorage.setItem('theme', globalTheme.name.value)
+
 }
 
-// Update icon if theme is changed from other sources
 watch(() => globalTheme.name.value, val => {
   currentThemeName.value = val
 })
