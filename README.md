@@ -36,3 +36,16 @@ npm run dev
 ```sh
 npm run build
 ```
+![image](https://github.com/user-attachments/assets/9b37f691-b57b-4482-a530-9f08b9e2c135)
+
+![image](https://github.com/user-attachments/assets/294a020b-7562-4c87-97ca-9805f45507bd)
+
+![image](https://github.com/user-attachments/assets/a1d0590a-cdff-4ebe-8b44-76393a0efefd)
+
+![image](https://github.com/user-attachments/assets/6cc7da41-635f-4125-9a0b-8ddaa70d1528)
+
+![image](https://github.com/user-attachments/assets/be9668c1-a1e9-45b8-ad65-a3ea8ca6f84d)
+
+
+
+
