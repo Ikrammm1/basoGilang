@@ -40,7 +40,7 @@ npm run build
 
 ![image](https://github.com/user-attachments/assets/294a020b-7562-4c87-97ca-9805f45507bd)
 
-![image](https://github.com/user-attachments/assets/a1d0590a-cdff-4ebe-8b44-76393a0efefd)
+![image](https://github.com/user-attachments/assets/193d83d6-c062-442d-a52e-213f52b9b1a0)
 
 ![image](https://github.com/user-attachments/assets/6cc7da41-635f-4125-9a0b-8ddaa70d1528)
 
