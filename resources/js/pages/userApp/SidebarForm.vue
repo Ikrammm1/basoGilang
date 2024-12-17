@@ -186,9 +186,6 @@ const { notify }  = useNotification()
             phone: '',
             isLoading : false,
             formData : new FormData(),
-            nameRules: [
-                v => !!v || 'Menu name is required',
-            ],
             errorMessages: [],
             notify : false,
             status: '',
@@ -232,23 +229,6 @@ const { notify }  = useNotification()
              
             }
             
-        },
-        selectedCat(){
-            // this.parent
-            if(this.selectedCat != ''){
-                if( this.selectedCat == 'Header'){
-                    this.selectedParent = ''
-
-                }else if(this.selectedCat == 'Parent'){
-                    this.selectedParent = ''
-                    this.mapParent = this.parent.filter(item => item.category == 'Header')
-                }else if(this.selectedCat =='Submenu'){
-                    this.selectedParent = ''
-                    this.mapParent = this.parent.filter(item => item.category == 'Parent')
-                }
-            }else{
-                this.mapParent = this.parent
-            }
         },
         // selectedParent(){
         //     console.log(this.selectedParent)

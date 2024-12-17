@@ -7,7 +7,7 @@
       Content Management System
     </span>
     <!-- 👉 Footer: right content -->
-    <span class="d-md-flex gap-x-4 text-primary d-none">
+    <!-- <span class="d-md-flex gap-x-4 text-primary d-none">
       <a
         href="https://themeselection.com/license/"
         target="noopener noreferrer"
@@ -24,6 +24,6 @@
         href="https://themeselection.com/support/"
         target="noopener noreferrer"
       >Support</a>
-    </span>
+    </span> -->
   </div>
 </template>

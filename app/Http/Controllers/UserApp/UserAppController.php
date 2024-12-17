@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\MasPositions;
 use App\Models\UserAuthGroup;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class UserAppController extends Controller
 {
@@ -79,6 +82,11 @@ class UserAppController extends Controller
                     'phone'=>$request->phone,
                     'position_code'=>$request->position,
                 ]);
+                if($request->image){
+                    $update = User::whereId($request->id)->update([
+                        'photo'=>$request->image
+                    ]);
+                }
         
             });
             $data =  DB::table('users')
@@ -108,5 +116,86 @@ class UserAppController extends Controller
         UserAuthGroup::where('user_id', $id)->delete();
 
         return response()->json(['success'=>true], 200);
+    }
+
+    public function newPass(Request $request)
+    {
+        // Get currently authenticated user
+        $user = User::whereId($request->id)->first();
+        // dd($user);
+        // Validate request
+        $validator = Validator::make($request->all(), [
+            'current_password' => ['required', 'string'],
+            'new_password' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        // Check if the current password is correct
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Current password is incorrect.'
+            ], 400);
+        }
+
+        // Update the user's password
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password updated successfully.'
+        ]);
+            
+    }
+
+    public function upload(Request $request)
+    {
+        // Validasi file yang diupload (misalnya, hanya gambar dan ukuran maksimum 800KB)
+        $request->validate([
+            'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:800', // 800KB max
+        ]);
+
+        // Memeriksa apakah file ada dalam request
+        if ($request->hasFile('image')) {
+            // Ambil file yang diupload
+            $file = $request->file('image');
+            $fileOld = $request->file('imageOld');
+            
+            // Menyimpan file ke storage public/images dan mendapat path penyimpanan
+            $path = $file->store('public/images/avatars'); // Menyimpan di storage/app/public/images
+
+            // Mendapatkan URL yang dapat diakses untuk file yang diupload
+            // $imageUrl = File::url($path);
+            $fileName = $file->getClientOriginalName();
+            $fileNameOld = $fileOld->getClientOriginalName();
+
+            $pathFile = public_path() . '/images/avatars/';
+            if (File::exists($pathFile . $fileName)) {
+                File::delete($pathFile . $fileName);
+                if($fileNameOld != 'profilephoto.png'){
+                    File::delete($pathFile . $fileNameOld);
+                }
+            }
+            $file->move($pathFile, $fileName);
+            
+
+            return response()->json([
+                'success' => true,
+                'imageUrl' => $fileName, // Mengembalikan URL file yang baru diupload
+            ]);
+        }
+
+        // Jika tidak ada file yang diupload
+        return response()->json([
+            'success' => false,
+            'message' => 'No image uploaded.',
+        ], 400);
     }
 }
