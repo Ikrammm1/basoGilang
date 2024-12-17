@@ -56,7 +56,7 @@ const actions = {
 
   async process({ commit }, data) {
     const transactionType = data.id ? "update" : "add";
-
+    // console.log(data.from)
     return new Promise((resolve, reject) => {
       axios.post("/api/userApp/" + transactionType, data.formData, {
         headers: {
@@ -65,7 +65,17 @@ const actions = {
       })
         .then(response => {         
           if (data.id) {
-            commit("UPDATE_ITEM", response.data.datas); 
+            if(data.from != 'User'){
+              commit("UPDATE_ITEM", response.data.datas); 
+            }else{
+              let userData = JSON.parse(localStorage.getItem('userData'));
+              userData.name = response.data.datas.name
+              userData.email = response.data.datas.email
+              userData.phone = response.data.datas.phone
+              userData.photo = response.data.datas.photo
+
+              localStorage.setItem('userData', JSON.stringify(userData));
+            }
           } else {
             commit("ADD_ITEM", response.data.datas); 
           }   
@@ -87,6 +97,40 @@ const actions = {
           reject(error)
       })
     })
+  },
+
+  newPass({commit}, data){
+    console.log(data.formData)
+    return new Promise((resolve,reject)=>{
+      axios.post("/api/userApp/newPass/" , data.formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+      }).then((response)=>{
+        resolve(response)
+      }).catch((error) => {
+          reject(error)
+      })
+    })
+  },
+
+  upload({commit}, data){
+     // try {
+      return new Promise((resolve,reject)=>{
+        axios.post("/api/userApp/upload/" , data.formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+        }).then((response)=>{
+          resolve(response)
+        }).catch((error) => {
+            reject(error)
+        })
+      })
+       
+    // } catch (error) {
+    //     this.$toast.error('An error occurred while uploading the image!');
+    // }
   }
     
 

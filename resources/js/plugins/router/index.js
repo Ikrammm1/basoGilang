@@ -7,7 +7,12 @@ const router = createRouter({
   routes,
 })
 router.beforeEach(async(to, from, next) => {
+  const publicRoutes = ["/profile", "/FAQ"];
 
+  if (publicRoutes.includes(to.path)) {
+    next();
+    return;
+  }
 
   const token = localStorage.getItem('authToken');
   // const userMenus = JSON.parse(localStorage.getItem('userMenus') || '[]');
@@ -54,6 +59,7 @@ router.beforeEach(async(to, from, next) => {
         return;
       }
     }
+    // console.log(to.name)
   // Jika halaman yang diminta adalah login dan token belum ada, lanjutkan navigasi
   if (to.name === 'Login' && !token) {
     next();

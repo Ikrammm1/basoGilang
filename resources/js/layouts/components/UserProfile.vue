@@ -14,7 +14,7 @@
         color="primary"
         variant="tonal"
       >
-        <VImg :src="photo ?photo : avatar" />
+        <VImg :src="photo ? '/images/avatars/'+photo : avatar" />
 
         <!-- SECTION Menu -->
         <VMenu
@@ -39,7 +39,7 @@
                       color="primary"
                       variant="tonal"
                     >
-                      <VImg :src="photo ?photo : avatar" />
+                    <VImg :src="photo ? '/images/avatars/'+photo : avatar" />
                     </VAvatar>
                   </VBadge>
                 </VListItemAction>
@@ -64,7 +64,7 @@
                 />
               </template>
 
-              <VListItemTitle>Profile</VListItemTitle>
+              <VListItemTitle @click.stop="profile">Profile</VListItemTitle>
             </VListItem>
 
             <!-- 👉 Settings -->
@@ -196,6 +196,11 @@ function resetIdleTimer() {
 
 // Mulai timer ketika halaman dimuat
 resetIdleTimer();
+
+
+function profile(){
+  router.push('/profile');
+}
 
 </script>
 

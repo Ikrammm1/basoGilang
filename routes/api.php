@@ -43,8 +43,10 @@ Route::post('/authorization-group/delete/', [AuthorizationsController::class, 'd
 Route::post('/userApp/listUser', [UserAppController::class, 'listUser']);
 Route::post('/userApp/add/', [UserAppController::class, 'store']);
 Route::post('/userApp/update/', [UserAppController::class, 'update']);
+Route::post('/userApp/newPass/', [UserAppController::class, 'newPass']);
 Route::delete('/userApp/delete/{id}', [UserAppController::class, 'delete']);
 Route::post('/userApp/getPositions', [UserAppController::class, 'getPositions']);
+Route::post('/userApp/upload', [UserAppController::class, 'upload']);
 
 
 
