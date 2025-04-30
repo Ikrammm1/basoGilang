@@ -31,27 +31,28 @@ class AuthorizationGroup extends Model
     public function headerMenus()
     {
         return $this->belongsToMany(Menu::class, 'cms_menu_auth_groups', 'group_id', 'menu_id')
-                    ->where('cms_menus.category', 'header');
+            ->where('cms_menus.category', 'header');
     }
 
     // Relasi untuk menu kategori 'parent'
     public function Items()
     {
         return $this->belongsToMany(Menu::class, 'cms_menu_auth_groups', 'group_id', 'menu_id')
-                    ->where('cms_menus.category', 'parent');
+            ->where('cms_menus.category', 'parent');
     }
     public function Submenu()
     {
         return $this->belongsToMany(Menu::class, 'cms_menu_auth_groups', 'group_id', 'menu_id')
-                    ->where('cms_menus.category', 'submenu');
+            ->where('cms_menus.category', 'submenu');
     }
 
     public function Users()
     {
         return $this->belongsToMany(
-            User::class, 
-            'cms_user_auth_groups', 
-            'group_id', 
-            'user_id');
+            User::class,
+            'cms_user_auth_groups',
+            'group_id',
+            'user_id'
+        );
     }
 }

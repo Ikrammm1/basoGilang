@@ -9,7 +9,13 @@ class Menu extends Model
 {
     protected $table = 'cms_menus';
     protected $fillable = [
-        'name', 'url', 'parent_id', 'sort_order', 'userId', 'icon','category'
+        'name',
+        'url',
+        'parent_id',
+        'sort_order',
+        'userId',
+        'icon',
+        'category'
     ];
     public function Items()
     {
@@ -28,6 +34,6 @@ class Menu extends Model
 
     public function MenuAuthGroup()
     {
-        return $this->hasMany('App\Models\MenuAuthGroup','menu_id','id');
+        return $this->hasMany('App\Models\MenuAuthGroup', 'menu_id', 'id');
     }
 }
