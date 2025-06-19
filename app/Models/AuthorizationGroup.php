@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class AuthorizationGroup extends Model
 {
     protected $table = 'cms_authorization_groups';
-    protected $fillable = [
-        'name',
-        'description',
-        'userId'
-    ];
+    // protected $fillable = [
+    //     'name',
+    //     'description',
+    //     'userId'
+    // ];
+     protected $guarded =[];
 
     // public function Menu()
     // {

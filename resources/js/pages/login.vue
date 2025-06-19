@@ -1,6 +1,5 @@
 <script setup>
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue';
-import logocms from '@images/cmslogo1.png';
+import logoutama from '@images/logoutama.png';
 import authV1BottomShape from '@images/svg/auth-v1-bottom-shape.svg?url';
 import authV1TopShape from '@images/svg/auth-v1-top-shape.svg?url';
 import { ref } from "vue";
@@ -107,14 +106,20 @@ function hidden(){
             to="/"
             class="app-logo"
           >
-          <VAvatar
+          <div class="illustrator-img">
+            <VImg
+              :src="logoutama"
+              :width="180"
+            />
+          </div>
+          <!-- <VAvatar
             class="cursor-pointer"
             color="primary"
             variant="tonal" 
             size="80"
           >
-            <VImg :src="logocms" />
-          </VAvatar>
+            <VImg :src="logoutama" />
+          </VAvatar> -->
             <!-- <h1 class="app-logo-title">
               CMS
             </h1> -->
@@ -123,10 +128,10 @@ function hidden(){
 
         <VCardText>
           <h4 class="text-h4 mb-1">
-            Welcome to CMS! 👋🏻
+            Selamat Datang di Baso Gilang Apps 👋🏻
           </h4>
           <p class="mb-0">
-            Please sign-in to your account and start the apps
+            Silahkan Login untuk masuk ke aplikasi
           </p>
         </VCardText>
 
@@ -138,9 +143,9 @@ function hidden(){
                 <VTextField
                   v-model="form.email"
                   autofocus
-                  label="Email or Username"
-                  type="email"
-                  placeholder="johndoe@email.com"
+                  label="Email atau Username"
+                  type="text"
+                  placeholder="Email atau Username"
                 />
               </VCol>
 
@@ -159,14 +164,14 @@ function hidden(){
                 <div class="d-flex align-center justify-space-between flex-wrap my-6">
                   <VCheckbox
                     v-model="form.remember"
-                    label="Remember me"
+                    label="Ingat saya"
                   />
 
                   <a
                     class="text-primary"
                     href="javascript:void(0)"
                   >
-                    Forgot Password?
+                    Lupa Password?
                   </a>
                 </div>
 
@@ -195,7 +200,7 @@ function hidden(){
                 </RouterLink>
               </VCol> -->
 
-              <VCol
+              <!-- <VCol
                 cols="12"
                 class="d-flex align-center"
               >
@@ -210,7 +215,7 @@ function hidden(){
                 class="text-center"
               >
                 <AuthProvider />
-              </VCol>
+              </VCol> -->
             </VRow>
           </VForm>
         </VCardText>

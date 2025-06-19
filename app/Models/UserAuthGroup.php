@@ -9,10 +9,11 @@ class UserAuthGroup extends Model
 {
     use HasFactory;
     protected $table = 'cms_user_auth_groups';
-    protected $fillable = [
-        'user_id',
-        'group_id'
-    ];
+    // protected $fillable = [
+    //     'user_id',
+    //     'group_id'
+    // ];
+        protected $guarded =[];
 
     public function User()
     {

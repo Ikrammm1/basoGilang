@@ -24,22 +24,17 @@ userName = (JSON.parse(localStorage.getItem('userData')).name)
       >
         <VCardItem class="pb-3">
           <VCardTitle class="text-primary">
-            Welcome back {{userName}} 🎉
+            Selamat Datang Kembali {{userName}} 🎉
           </VCardTitle>
         </VCardItem>
 
         <VCardText>
-          You have done 72% more sales today.
+          Kinerja penjualanmu hari ini semakin baik!
           <br>
-          Check your new raising badge in your profile.
+          Lihat performa mu di laporan penjualan.
           <br>
-          <VBtn
-            variant="tonal"
-            class="mt-6"
-            size="small"
-          >
-            View Badges
-          </VBtn>
+          <div class="mt-6" style="height: 38px;"></div>
+         
         </VCardText>
       </VCol>
 

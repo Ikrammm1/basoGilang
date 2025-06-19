@@ -67,7 +67,7 @@
               <VListItemTitle @click.stop="profile">Profile</VListItemTitle>
             </VListItem>
 
-            <!-- 👉 Settings -->
+            <!-- 👉 Settings
             <VListItem link>
               <template #prepend>
                 <VIcon
@@ -80,7 +80,7 @@
               <VListItemTitle>Settings</VListItemTitle>
             </VListItem>
 
-            <!-- 👉 FAQ -->
+            FAQ 
             <VListItem link>
               <template #prepend>
                 <VIcon
@@ -91,7 +91,7 @@
               </template>
 
               <VListItemTitle>FAQ</VListItemTitle>
-            </VListItem>
+            </VListItem> -->
 
             <!-- Divider -->
             <VDivider class="my-2" />

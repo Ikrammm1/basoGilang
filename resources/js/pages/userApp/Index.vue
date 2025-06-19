@@ -9,7 +9,7 @@
                 @click="addNewData()"
                 color="primary"
             >
-                <VIcon start icon="bx-plus-circle" /> Add New
+                <VIcon start icon="bx-plus-circle" /> Tambah
             </VBtn>
             </VCol>
     
@@ -164,7 +164,7 @@ export default {
     methods:{
         addNewData() {
             this.sidebarData = {};
-            this.from = 'Add New';
+            this.from = 'Tambah';
             this.$refs.SidebarForm.toggleDialog();
         },
         editData(data){

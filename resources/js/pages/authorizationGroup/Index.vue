@@ -1,7 +1,7 @@
 <template>
     <SidebarForm ref="SidebarForm" :data="sidebarData" :from="from"/>
     <div>
-      <!-- Tombol Add New dan Pencarian -->
+      <!-- Tombol Tambah dan Pencarian -->
       <VRow class="ms-2 mt-2 me-2 mb-2">
         <VCol cols="12" md="8">
           <VBtn
@@ -9,7 +9,7 @@
             @click="addNewData()"
             color="primary"
           >
-            <VIcon start icon="bx-plus-circle" /> Add New
+            <VIcon start icon="bx-plus-circle" /> Tambah
           </VBtn>
         </VCol>
   
@@ -155,12 +155,11 @@ style="z-index: 99;"
         methods: {
             addNewData() {
                 this.sidebarData = {};
-                this.from = 'Add New';
+                this.from = 'Tambah';
                 
                 this.$refs.SidebarForm.toggleDialog();
             },
             editData(data){
-                console.log(data)
                 // this.sidebarData = data;
                 this.sidebarData = { ...data };
                 this.from = 'Update';
@@ -171,7 +170,6 @@ style="z-index: 99;"
                 this.sidebarData = {};  // Reset sidebarData agar data kosong setelah ditutup
             },
             deleteItem(id){
-                console.log(id)
                 const formData = new FormData();
                 formData.append('id', id);
                 // console.log(id)

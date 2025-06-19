@@ -26,7 +26,6 @@ class AuthorizationsController extends Controller
             'desc' => 'string|nullable',
         ]);
 
-        // dd($request->userId);
         $menus = explode(',', $request->menus);
         $users = explode(',', $request->users);
         $new = null;

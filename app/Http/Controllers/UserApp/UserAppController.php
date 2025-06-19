@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
+
 class UserAppController extends Controller
 {
     public function listUser()
@@ -35,10 +36,13 @@ class UserAppController extends Controller
         $new = null;
         try{
             DB::transaction(function () use($request, &$new){
+                $password = $request->password 
+                ? Hash::make($request->password) 
+                : Hash::make('Password123');
                 $new = User::create([
                     'name'=>$request->name,
                     'email'=>$request->email,
-                    'password'=>$request->password ? base64_encode($request->password) : base64_encode('Password123'),
+                    'password'=>$password,
                     'phone'=>$request->phone,
                     'active'=>1,
                     'position_code'=>$request->position,
@@ -46,7 +50,7 @@ class UserAppController extends Controller
         
                 UserAuthGroup::create([
                     'user_id' =>$new->id,
-                    'group_id' =>$request->groupId ? $request->groupId : 12,
+                    'group_id' =>$request->groupId ? $request->groupId : 5,
                 ]);
         
             });
@@ -157,38 +161,33 @@ class UserAppController extends Controller
 
     public function upload(Request $request)
     {
-        // Validasi file yang diupload (misalnya, hanya gambar dan ukuran maksimum 800KB)
         $request->validate([
-            'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:800', // 800KB max
+            'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:800',
         ]);
-
-        // Memeriksa apakah file ada dalam request
+        
         if ($request->hasFile('image')) {
-            // Ambil file yang diupload
             $file = $request->file('image');
-            $fileOld = $request->file('imageOld');
-            
-            // Menyimpan file ke storage public/images dan mendapat path penyimpanan
-            $path = $file->store('public/images/avatars'); // Menyimpan di storage/app/public/images
-
-            // Mendapatkan URL yang dapat diakses untuk file yang diupload
-            // $imageUrl = File::url($path);
             $fileName = $file->getClientOriginalName();
-            $fileNameOld = $fileOld->getClientOriginalName();
-
-            $pathFile = public_path() . '/images/avatars/';
+            $fileNameOld = $request->input('imageOld'); // <-- perbaikan
+        
+            $pathFile = public_path('images/avatars/');
+        
+            // Hapus file baru jika sudah ada (jarang terjadi tapi aman)
             if (File::exists($pathFile . $fileName)) {
                 File::delete($pathFile . $fileName);
-                if($fileNameOld != 'profilephoto.png'){
-                    File::delete($pathFile . $fileNameOld);
-                }
             }
+        
+            // Hapus file lama jika bukan default
+            if ($fileNameOld && $fileNameOld != 'profilephoto.png') {
+                File::delete($pathFile . $fileNameOld);
+            }
+        
+            // Pindahkan file baru ke folder public
             $file->move($pathFile, $fileName);
-            
-
+        
             return response()->json([
                 'success' => true,
-                'imageUrl' => $fileName, // Mengembalikan URL file yang baru diupload
+                'imageUrl' => $fileName,
             ]);
         }
 

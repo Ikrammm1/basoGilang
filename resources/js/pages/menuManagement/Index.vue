@@ -9,7 +9,7 @@
                 @click="addNewData()"
                 color="primary"
             >
-                <VIcon start icon="bx-plus-circle" /> Add New
+                <VIcon start icon="bx-plus-circle" /> Tambah
             </VBtn>
             </VCol>
     
@@ -40,7 +40,7 @@
                 :variant="!item.icon ? 'tonal' : undefined"
                 >
                 <VIcon v-if="item.icon" :icon="item.icon" />
-                <span v-else>{{ avatarText(item.icon) }}</span>
+                <span v-else>{{ item.icon?.substring(0, 2).toUpperCase() || '?' }}</span>
                 </VAvatar>
                 
             </template>
@@ -179,7 +179,6 @@ export default {
             this.$refs.SidebarForm.toggleDialog();
         },
         editData(data){
-            console.log(data)
             // this.sidebarData = data;
             this.sidebarData = { ...data };
             this.$refs.SidebarForm.toggleDialog();
@@ -189,7 +188,6 @@ export default {
             this.sidebarData = {};  // Reset sidebarData agar data kosong setelah ditutup
         },
         deleteItem(id){
-            console.log(id)
             const formData = new FormData();
             formData.append('id', id);
             // console.log(id)

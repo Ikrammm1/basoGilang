@@ -9,10 +9,11 @@ class MenuAuthGroup extends Model
 {
     use HasFactory;
     protected $table = 'cms_menu_auth_groups';
-    protected $fillable = [
-        'menu_id',
-        'group_id'
-    ];
+    // protected $fillable = [
+    //     'menu_id',
+    //     'group_id'
+    // ];
+        protected $guarded =[];
 
     public function Menu()
     {

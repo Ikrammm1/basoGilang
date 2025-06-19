@@ -3,17 +3,21 @@ import Footer from '@/layouts/components/Footer.vue';
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue';
 import NavItems from '@/layouts/components/NavItems.vue';
 import UserProfile from '@/layouts/components/UserProfile.vue';
-import cmslogo from '@images/cmslogo1.png';
+import { globalTheme } from '@/themeState';
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useTheme } from 'vuetify'; // ✅ tambahkan
 
+const { global: theme } = useTheme() // ✅ ini yang sebelumnya error
+const logo = globalTheme.logo
+const router = useRouter()
 
-const router = useRouter();
+const search = ref('')
 
-// State untuk input pencarian
-const search = ref('');
-
+const suggestionBgColor = computed(() => {
+  return theme.name.value === 'dark' ? '#1e1e1e' : '#ffffff'
+})
 // Daftar semua item yang bisa dicari
 // const items = ref([
 //   'Apple',
@@ -25,7 +29,9 @@ const search = ref('');
 //   'Grape',
 //   'Honeydew',
 // ]);
-const userMenus = ref(JSON.parse(localStorage.getItem('userMenus')))
+const rawMenus = JSON.parse(localStorage.getItem('userMenus') || '{}')
+const userMenus = ref(Array.isArray(rawMenus) ? rawMenus : Object.values(rawMenus))
+// console.log(userMenus.value)
 
 const items = ref([])
 
@@ -49,6 +55,9 @@ userMenus.value.forEach(data => {
 // Daftar hasil suggestion berdasarkan input
 const suggestions = computed(() => {
   if (!search.value) return []; // Tidak ada hasil jika input kosong
+  const men = items.value.filter((item) =>
+    item.name.toLowerCase().includes(search.value.toLowerCase())
+  ).map((item) => item.name);
   return items.value.filter((item) =>
     item.name.toLowerCase().includes(search.value.toLowerCase())
   ).map((item) => item.name);
@@ -79,17 +88,14 @@ const selectActiveSuggestion = () => {
 
 // Fungsi untuk memilih item suggestion
 const selectSuggestion = (item) => {
-  // search.value = item; // Set nilai pencarian ke item yang dipilih
-  // activeIndex.value = -1; // Reset indeks aktif
   search.value = ''
   let to = (items.value.find(menu => menu.name == item).url)
-  // console.log(to)
   router.push(to)
 };
 
 function gotoMenu(menu){
   const to = items.value.find(item => item.name == menu)
-  console.log(to)
+  // console.log(to)
 }
 
 
@@ -112,39 +118,42 @@ function gotoMenu(menu){
 
         <!-- 👉 Search -->
         <div
-    class="align-center cursor-pointer"
-    style="user-select: none; position: inherit; width: 100%;"
-  >
-    <div class="row" style="position: relative; width: 100%;">
-      <!-- Input Search -->
-      <VTextField
-        id="search"
-        v-model="search"
-        placeholder="Search"
-        persistent-placeholder
-        prepend-inner-icon="bx-search"
-        full-width
-        @keydown.down="navigateSuggestions('down')"
-        @keydown.up="navigateSuggestions('up')"
-        @keydown.enter="selectActiveSuggestion"
-      />
-      <!-- Daftar Suggestion -->
-      <VList
-        v-if="suggestions.length"
-        class="suggestion-list"
-        style="position: absolute; top: 100%; left: 0; z-index: 10; width: 100%; background: white;"
-      >
-        <VListItem
-          v-for="(item, index) in suggestions"
-          :key="index"
-          :class="{ 'active-suggestion': activeIndex === index }"
-          @click="selectSuggestion(item.name)"
+          class="align-center cursor-pointer"
+          style="user-select: none; position: inherit; width: 100%;"
         >
-          {{ item }}
-        </VListItem>
-      </VList>
-    </div>
-  </div>
+          <div class="row" style="position: relative; width: 100%;">
+            <!-- Input Search -->
+            <VTextField
+              id="search"
+              v-model="search"
+              placeholder="Search"
+              persistent-placeholder
+              prepend-inner-icon="bx-search"
+              full-width
+              @keydown.down="navigateSuggestions('down')"
+              @keydown.up="navigateSuggestions('up')"
+              @keydown.enter="selectActiveSuggestion"
+            />
+            <!-- Daftar Suggestion -->
+          <VList
+              v-if="suggestions.length"
+              class="suggestion-list"
+               :style="{
+                  background: suggestionBgColor,
+                  color: theme.name.value === 'dark' ? '#fff' : '#000'
+                }"
+            >
+              <VListItem
+                v-for="(item, index) in suggestions"
+                :key="index"
+                :class="{ 'active-suggestion': activeIndex === index }"
+                @click="selectSuggestion(item)"
+              >
+                {{ item }}
+              </VListItem>
+            </VList>
+          </div>
+        </div>
           <!-- 👉 Search Trigger button -->
           <!-- <IconBtn>
             <VIcon icon="bx-search" />
@@ -158,13 +167,13 @@ function gotoMenu(menu){
 
         <VSpacer /> 
 
-        <IconBtn
+        <!-- <IconBtn
           href="https://github.com/Ikrammm1/CMS-Template"
           target="_blank"
           rel="noopener noreferrer"
         >
           <VIcon icon="bxl-github" />
-        </IconBtn>
+        </IconBtn> -->
 
         <!-- <IconBtn>
           <VIcon icon="bx-bell" />
@@ -181,23 +190,17 @@ function gotoMenu(menu){
         to="/"
         class="app-logo app-title-wrapper"
       >
-        <!-- eslint-disable vue/no-v-html -->
-        <!-- <div
-          class="d-flex"
-          v-html="logo"
-        /> -->
         <!-- eslint-enable -->
-        <VAvatar
-        class="cursor-pointer"
-        color="primary"
-        variant="tonal"
-      >
-        <VImg :src="cmslogo" />
-      </VAvatar>
-
-        <h1 class="app-logo-title">
-          CMS
-        </h1>
+        <div class="illustrator-img">
+            <VImg
+              :src="logo"
+              :width="180"
+              :style="{  borderRadius: '20px'}"
+            />
+        </div>
+        <!-- <h1 class="app-logo-title">
+          Baso Gilang
+        </h1> -->
       </RouterLink>
 
       <IconBtn
@@ -248,12 +251,28 @@ function gotoMenu(menu){
 .suggestion-list {
   max-height: 200px;
   overflow-y: auto;
-  border: 1px solid #ccc;
+  border: 1px solid var(--suggestion-border);
   border-radius: 4px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: var(--suggestion-bg);
+  color: var(--suggestion-color);
 }
 
 .active-suggestion {
-  background-color: #e0e0e0; /* Warna latar belakang untuk item aktif */
+  background-color: var(--suggestion-active);
 }
+:root {
+  --suggestion-bg: #ffffff;
+  --suggestion-color: #000000;
+  --suggestion-border: #ccc;
+  --suggestion-active: #e0e0e0;
+}
+
+[data-theme="dark"] {
+  --suggestion-bg: #1e1e1e;
+  --suggestion-color: #ffffff;
+  --suggestion-border: #555;
+  --suggestion-active: #333;
+}
+
 </style>

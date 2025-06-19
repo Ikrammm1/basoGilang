@@ -8,15 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Menu extends Model
 {
     protected $table = 'cms_menus';
-    protected $fillable = [
-        'name',
-        'url',
-        'parent_id',
-        'sort_order',
-        'userId',
-        'icon',
-        'category'
-    ];
+    // protected $fillable = [
+    //     'name',
+    //     'url',
+    //     'parent_id',
+    //     'sort_order',
+    //     'userId',
+    //     'icon',
+    //     'category'
+    // ];
+        protected $guarded =[];
     public function Items()
     {
         return $this->hasMany(static::class, 'parent_id')->where('category', 'parent')->orderBy('sort_order', 'asc');

@@ -51,7 +51,7 @@
                                 File Change : {{selectedFile.name}}
                             </span>
                             <span>
-                                Allow Image Allowed JPG, GIF or PNG. Max size of 800Kb
+                                Hanya diperbolehkan gambar berformat JPG, GIF, atau PNG. Ukuran maksimum 800KB.
                             </span>
                         </VRow>
                     </VCol>
@@ -155,7 +155,7 @@
                                     persistent-placeholder
                                     item-title="mp_name"
                                     item-value="mp_code"
-                                    disabled="true"
+                                    :disabled="true"
                                 />
                             </VCol>
                             </VRow>
@@ -188,7 +188,7 @@
         <VCard>
             <VForm @submit.prevent="() => {}">
                 <VCard class="mt-2">
-                    <h3 class="mt-3 ml-3">Change Password</h3>
+                    <h3 class="mt-3 ml-3">Ubah Password</h3>
 
                 <VRow class="mb-4 mt-3">
                         <VCardText>
@@ -199,7 +199,7 @@
                                     cols="12"
                                     md="3"
                                 >
-                                    <label for="curPass">Current Password</label>
+                                    <label for="curPass">Password Sekarang</label>
                                 </VCol>
             
                                 <VCol
@@ -225,7 +225,7 @@
                                     cols="12"
                                     md="3"
                                 >
-                                    <label for="newPass">New Password</label>
+                                    <label for="newPass">Password Baru</label>
                                 </VCol>
             
                                 <VCol
@@ -251,7 +251,7 @@
                                         cols="12"
                                         md="3"
                                     >
-                                        <label for="cnewPass">Confirm New Password</label>
+                                        <label for="cnewPass">Konfirmasi Password</label>
                                     </VCol>
                 
                                     <VCol
@@ -274,12 +274,12 @@
                         </VCardText>
                         <!-- </VForm> -->
                 </VRow>
-                    <span class="ml-3">Password Requirements:</span>
+                   <span class="ml-3">Persyaratan Password:</span>
                     <VRow class="ml-10 mt-4 mb-4">
-                        <ul>
-                        <li>Minimum 8 characters long - the more, the better</li>
-                        <li>At least one lowercase character</li>
-                        <li>At least one number, symbol, or whitespace character</li>
+                    <ul>
+                        <li>Minimal 8 karakter — lebih banyak lebih baik</li>
+                        <li>Setidaknya satu huruf kecil</li>
+                        <li>Setidaknya satu angka, simbol, atau spasi</li>
                     </ul>
                     </VRow>
                     

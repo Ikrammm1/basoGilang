@@ -9,83 +9,77 @@ use App\Models\Menu;
 use App\Models\MenuAuthGroup;
 use App\Models\AuthorizationGroup;
 use App\Models\UserAuthGroup;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function login(Request $request){
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json([
-                'message' => 'Invalid email and password'
-            ], 401);
-        }
+$request->validate([
+    'email' => 'required|string',
+    'password' => 'required',
+]);
 
-        $user = User::where('email', $request->email)->with('userPosition')->firstOrFail();
-        $userAuth = User::with(['Authorizations.headerMenus', 'Authorizations.Items','Authorizations.Submenu'])->find($user->id);
+// Ambil user berdasarkan email atau username
+$user = User::where('email', $request->email)
+            ->orWhere('name', $request->email)
+            ->with('userPosition')
+            ->first();
 
-        // Mengumpulkan semua menu header
-        $headerMenus = $userAuth->Authorizations->flatMap(function ($authorization) {
-            return $authorization->headerMenus;
-        })->unique('id');
+if (!$user || !Hash::check($request->password, $user->password)) {
+    return response()->json([
+        'message' => 'Invalid username/email or password'
+    ], 401);
+}
 
-        // Mengumpulkan semua menu parent
-        $parentMenus = $userAuth->Authorizations->flatMap(function ($authorization) {
-            return $authorization->Items;
-        })->unique('id');
+// Login manual
+Auth::login($user);
 
-        $subMenus = $userAuth->Authorizations->flatMap(function ($authorization) {
-            return $authorization->Submenu;
-        })->unique('id');
+// Ambil user lengkap dengan relasi menu
+$userAuth = User::with([
+    'Authorizations.headerMenus',
+    'Authorizations.Items',
+    'Authorizations.Submenu'
+])->find($user->id);
 
-        // Strukturkan data menu header dengan items berisi menu parent dan submenu
-        $menuData = $headerMenus->map(function ($headerMenu) use ($parentMenus, $subMenus) {
+// Ambil semua menu
+$headerMenus = $userAuth->Authorizations->flatMap(fn($auth) => $auth->headerMenus)->unique('id');
+$parentMenus = $userAuth->Authorizations->flatMap(fn($auth) => $auth->Items)->unique('id');
+$subMenus = $userAuth->Authorizations->flatMap(fn($auth) => $auth->Submenu)->unique('id');
+
+// Strukturkan data menu
+$menuData = $headerMenus->map(function ($headerMenu) use ($parentMenus, $subMenus) {
+    return [
+        'id' => $headerMenu->id,
+        'name' => $headerMenu->name,
+        'url' => $headerMenu->url,
+        'sort_order' => $headerMenu->sort_order,
+        'icon' => $headerMenu->icon,
+        'category' => $headerMenu->category,
+        'items' => $parentMenus->where('parent_id', $headerMenu->id)->map(function ($parentMenu) use ($subMenus) {
             return [
-                'id' => $headerMenu->id,
-                "name"=> $headerMenu->name,
-                "url"=> $headerMenu->url,
-                "sort_order"=> $headerMenu->sort_order,
-                "icon"=> $headerMenu->icon,
-                "category"=> $headerMenu->category,
-                'items' => $parentMenus->where('parent_id', $headerMenu->id)->map(function ($parentMenu) use ($subMenus) {
-                    return [
-                        'id' => $parentMenu->id,
-                        "name"=> $parentMenu->name,
-                        "url"=> $parentMenu->url,
-                        "sort_order"=> $parentMenu->sort_order,
-                        "icon"=> $parentMenu->icon,
-                        "category"=> $parentMenu->category,
-                        'submenu' => $subMenus->where('parent_id', $parentMenu->id)->map(function ($subMenu) {
-                            return $subMenu;
-                        })
-                    ];
-                })->values()
+                'id' => $parentMenu->id,
+                'name' => $parentMenu->name,
+                'url' => $parentMenu->url,
+                'sort_order' => $parentMenu->sort_order,
+                'icon' => $parentMenu->icon,
+                'category' => $parentMenu->category,
+                'submenu' => $subMenus->where('parent_id', $parentMenu->id)->values()->all()
             ];
-        });
+        })->values()
+    ];
+});
 
-        // return response()->json([
-        //     'users' => $user,
-        //     'menus' => $menuData
-        // ]);
-        // $auth = AuthorizationGroup::with('Menu');
+// Buat token
+$token = $user->createToken('auth_token')->plainTextToken;
 
-        // $user = MenuAuthGroup::where('email', $request->email)->with(['AuthorizationGroup' => function($query){
-        //     $query->whereHas
-        // }]);
+return response()->json([
+    'status' => 'success',
+    'token' => $token,
+    'datas' => $user,
+    'menus' => $menuData
+]);
 
-        // return $user;
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'status' => 'success',
-            'token' => $token,
-            'datas' => $user,
-            'menus' => $menuData
-            
-        ]);
         // return response()->json([
         //     'access_token' => $token,
         //     'token_type' => 'Bearer',

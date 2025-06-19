@@ -7,7 +7,7 @@
             v-for="header in headers"
             :key="header.key"
             @click="sort(header.key)"
-            style="cursor: pointer"
+            style="cursor: pointer; font-size: 10px"
           >
             {{ header.title }}
             
@@ -21,12 +21,10 @@
         </tr>
       </thead>
   
-      <tbody>
-        <!-- Render Baris Data -->
-        <tr v-for="item in paginatedData" :key="item.id">
-          <td v-for="header in headers" :key="header.key">
-            <slot :name="'item.' + header.key" :item="item">
-              <!-- Fallback content if no slot is provided -->
+      <tbody class="text-sm">
+        <tr v-for="(item, index) in paginatedData" :key="item.id">
+          <td v-for="header in headers" :key="header.key" class="text-sm">
+            <slot :name="'item.' + header.key" :item="item" :index="index">
               {{ item[header.key] }}
             </slot>
           </td>
@@ -38,11 +36,12 @@
         <VCardText class="pt-2">
           <div class="d-flex flex-wrap justify-center justify-sm-space-between gap-y-2 mt-2">
             <VSelect
-              v-model="itemsPerPage"
-              :items="[10, 25, 50, 100]"
+              v-model="localItemsPerPage"
+              :items="items.length ? items : [10, 25, 50, 100]"
               label="Rows per page:"
               variant="underlined"
               style="max-inline-size: 8rem; min-inline-size: 5rem;"
+              @change="updateItemsPerPage"
             />
             <VPagination
               v-model="page"
@@ -70,24 +69,56 @@
         type: String,
         default: '',
       },
+      itemsPerPage: {
+        type: Number,
+        default: 10,
+      },
+      items: {
+        type: Array,
+        default: () => [10, 25, 50, 100],
+      },
     },
+    emits: ['update:itemsPerPage'],
     data() {
       return {
         page: 1,
-        itemsPerPage: 10,
+        // itemsPerPage: 10,
         sortBy: '',
         sortDesc: false,
         clickCount: {},  // Untuk melacak jumlah klik per kolom
+        localItemsPerPage: this.itemsPerPage,
       };
     },
+    watch: {
+    localItemsPerPage(newVal) {
+      this.$emit('update:itemsPerPage', newVal)
+    },
+    itemsPerPage(newVal) {
+      this.localItemsPerPage = newVal
+    }
+  },
     computed: {
       filteredData() {
         if (!this.search) return this.data;
         const searchLower = this.search.toLowerCase();
+
+        const extractAllValues = (obj) => {
+          let values = [];
+          for (const key in obj) {
+            if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
+            const value = obj[key];
+            if (value && typeof value === 'object') {
+              values = values.concat(extractAllValues(value)); // Rekursif
+            } else {
+              values.push(String(value)); // Ambil nilai primitif (termasuk number, boolean, dll)
+            }
+          }
+          return values;
+        };
+
         return this.data.filter(item => {
-          return Object.keys(item).some(key => {
-            return String(item[key]).toLowerCase().includes(searchLower);
-          });
+          const allValues = extractAllValues(item);
+          return allValues.some(val => val.toLowerCase().includes(searchLower));
         });
       },
       sortedData() {
@@ -109,6 +140,9 @@
       },
     },
     methods: {
+      updateItemsPerPage(val) {
+    this.$emit('update:itemsPerPage', val)
+  },
       sort(column) {
         // Inisialisasi jika belum ada clickCount untuk kolom ini
         if (this.clickCount[column] === undefined) {

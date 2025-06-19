@@ -62,10 +62,10 @@ module.exports = {
     // add parens ony when required in arrow function
     'arrow-parens': ['error', 'as-needed'],
 
-    // add new line above comment
+    // Tambah line above comment
     'newline-before-return': 'error',
 
-    // add new line above comment
+    // Tambah line above comment
     'lines-around-comment': [
       'error',
       {

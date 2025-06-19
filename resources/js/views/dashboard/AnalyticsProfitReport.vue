@@ -1,9 +1,9 @@
 <script setup>
+import { hexToRgb } from '@core/utils/colorConverter'
 import {
   useDisplay,
   useTheme,
 } from 'vuetify'
-import { hexToRgb } from '@core/utils/colorConverter'
 
 const vuetifyTheme = useTheme()
 const display = useDisplay()
@@ -86,7 +86,7 @@ const chartOptions = computed(() => {
       <div class="d-flex flex-column justify-space-between gap-y-4">
         <div>
           <h5 class="text-h5 mb-1">
-            Profile Report
+            Laporan Kinerja
           </h5>
           <VChip
             color="warning"
@@ -106,7 +106,7 @@ const chartOptions = computed(() => {
           </div>
 
           <h4 class="text-h4">
-            $84,686k
+            Rp.50.000.000
           </h4>
         </div>
       </div>

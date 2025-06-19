@@ -1,5 +1,4 @@
 <script setup>
-import AnalyticsCongratulations from '@/views/dashboard/AnalyticsCongratulations.vue'
 import AnalyticsFinanceTabs from '@/views/dashboard/AnalyticsFinanceTab.vue'
 import AnalyticsOrderStatistics from '@/views/dashboard/AnalyticsOrderStatistics.vue'
 import AnalyticsProfitReport from '@/views/dashboard/AnalyticsProfitReport.vue'
@@ -16,11 +15,17 @@ import wallet from '@images/cards/wallet-info.png'
 <template>
   <VRow>
     <!-- 👉 Congratulations -->
-    <VCol
+    <!-- <VCol
       cols="12"
       md="8"
     >
       <AnalyticsCongratulations />
+    </VCol> -->
+    <VCol
+      cols="12"
+      md="8"
+    >
+      <!-- <NeedRestock /> -->
     </VCol>
 
     <VCol
@@ -37,7 +42,7 @@ import wallet from '@images/cards/wallet-info.png'
             v-bind="{
               title: 'Profit',
               image: chart,
-              stats: '$12,628',
+              stats: 'Rp.200.000.000',
               change: 72.80,
             }"
           />

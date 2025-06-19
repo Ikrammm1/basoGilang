@@ -291,7 +291,6 @@ const { notify }  = useNotification()
                 users.forEach(item=>{
                     this.assignUsers.push(item.id)
                 })
-                console.log(id)
             }
         },
   },
@@ -334,8 +333,6 @@ const { notify }  = useNotification()
         },
     
         async submitForm() {
-            console.log(this.assign)
-            console.log(this.assignUsers)
             // // console.log(this.parent)
             const formData = new FormData()
             const user = JSON.parse(localStorage.getItem('userData'));
@@ -352,7 +349,6 @@ const { notify }  = useNotification()
             
             try{
                 const result =await this.$store.dispatch("authorizations/process", {formData,id})
-                console.log(result)
                 if(result.data){
                 this.closeSidebar()
                 notify(
@@ -378,8 +374,6 @@ const { notify }  = useNotification()
             this.isDialogVisible = !this.isDialogVisible
         },
         submitForm(){
-            console.log(this.assign)
-            console.log(this.assignUsers)
             // // console.log(this.parent)
             const formData = new FormData()
             const user = JSON.parse(localStorage.getItem('userData'));

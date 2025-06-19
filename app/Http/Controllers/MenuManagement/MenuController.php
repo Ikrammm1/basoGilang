@@ -50,7 +50,7 @@ class MenuController extends Controller
         })->unique('id');
 
         // Strukturkan data menu header dengan items berisi menu parent dan submenu
-        $menuData = $headerMenus->map(function ($headerMenu) use ($parentMenus, $subMenus) {
+        $menuData = $headerMenus->sortBy('sort_order')->map(function ($headerMenu) use ($parentMenus, $subMenus) {
             return [
                 'id' => $headerMenu->id,
                 "name"=> $headerMenu->name,
@@ -58,7 +58,7 @@ class MenuController extends Controller
                 "sort_order"=> $headerMenu->sort_order,
                 "icon"=> $headerMenu->icon,
                 "category"=> $headerMenu->category,
-                'items' => $parentMenus->where('parent_id', $headerMenu->id)->map(function ($parentMenu) use ($subMenus) {
+                'items' => $parentMenus->where('parent_id', $headerMenu->id)->sortBy('sort_order')->map(function ($parentMenu) use ($subMenus) {
                     return [
                         'id' => $parentMenu->id,
                         "name"=> $parentMenu->name,
@@ -67,16 +67,16 @@ class MenuController extends Controller
                         "icon"=> $parentMenu->icon,
                         "category"=> $parentMenu->category,
                         "isOpen"=>false,
-                        'submenu' => $subMenus->where('parent_id', $parentMenu->id)->map(function ($subMenu) {
-                            return $subMenu;
-                        })
+                        'submenu' => $subMenus->where('parent_id', $parentMenu->id)->sortBy('sort_order')
+                                      ->values()
+                                      ->all()
                     ];
                 })->values()
             ];
         });
         return response()->json([
             'status' => 'success',
-            'menus' => $menuData
+            'menus' => $menuData->values()
             
         ],200);
     }
