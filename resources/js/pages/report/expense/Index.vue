@@ -7,7 +7,7 @@
     <div id="filter" class="mt-3" >
         <VCard title="Filter Laporan">
             <VRow class=" ml-3 mr-3 mb-2">
-                <VCol cols="6">
+                <VCol cols="12" md="6">
                     <label>Filter Berdasarkan</label>
                     <VSelect
                         v-model="jenisFilter"
@@ -19,7 +19,7 @@
                         class="mt-2"
                     />
                 </VCol>
-                <VCol cols="6">
+                <VCol cols="12" md="6">
                 <VRow class="ml-3 mr-3 mb-5" v-if="jenisFilter == '1'">
                 <VCol cols="12">
                     <label>Tahun</label>
@@ -49,7 +49,7 @@
                 </VCol>
             </VRow>
             <VRow class="ml-3 mr-3 mb-5s" v-if="jenisFilter == '3'">
-                <VCol cols="6">
+                <VCol cols="12" md="6">
                     <label>Tanggal Awal</label>
                     <VTextField
                         v-model="startDate"
@@ -59,7 +59,7 @@
                         class="mt-2"
                     />
                 </VCol>
-                <VCol cols="6">
+                <VCol cols="12" md="6">
                     <label>Tanggal Akhir</label>
                     <VTextField
                         v-model="endDate"

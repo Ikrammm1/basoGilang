@@ -188,7 +188,7 @@
                                 <VRow>
                                     <VCol cols="12">
                                         <VRow no-gutters class="justify-center">
-                                            <VCol cols="5 mr-3 ml-4" md="5">
+                                            <VCol cols="10 mr-3 ml-4" md="5">
                                                 <label for="status" >Kategori</label>
 
                                                 <VSelect
@@ -202,7 +202,7 @@
                                                     
                                                 />
                                             </VCol>
-                                             <VCol cols="5 mr-3 mt-2">
+                                             <VCol cols="10" md="5  mt-3">
                                                 <label>Produk</label>
                                                 <VSelect
                                                     v-model="prod.product"
@@ -217,15 +217,16 @@
                                     </VCol>
                                 </VRow>
                                 <VRow no-gutters class="justify-center ml-3">
-                                    <VCol cols="5 mr-3 mt-3">
+                                    <VCol cols="10" md="5 mr-3 mt-3">
                                         <label>Satuan</label>
                                         <VTextField
                                             v-model="prod.satuan"
                                             type="text"
                                             placeholder="Satuan"
+                                            :disabled="true"
                                         />
                                     </VCol>
-                                    <VCol cols="5 mt-3">
+                                    <VCol cols="10" md="5 mt-3">
                                     <label>Jumlah per pack</label>
                                     <VTextField
                                         v-model="prod.jumlah"

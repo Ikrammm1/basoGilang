@@ -28,7 +28,7 @@ const formatRupiah = value => {
   <VCol cols="12" md="12" class="mb-4" v-if="position_code=='OWN'">
     <VRow>
       <!-- Profit -->
-      <VCol cols="3" md="3" sm="6">
+      <VCol cols="12" md="3" sm="6">
         <CardStatisticsVertical
           :title="'Transaksi Hari Ini'"
           :image="chart"
@@ -39,7 +39,7 @@ const formatRupiah = value => {
       </VCol>
 
       <!-- Sales -->
-      <VCol cols="3" md="3" sm="6">
+      <VCol cols="12" md="3" sm="6">
         <CardStatisticsVertical
         :title="'Pendapatan Hari Ini'"
           :image="wallet"
@@ -52,7 +52,7 @@ const formatRupiah = value => {
       </VCol>
 
       <!-- Payments -->
-      <VCol cols="3" md="3" sm="6">
+      <VCol cols="12" md="3" sm="6">
         <CardStatisticsVertical
         :title="'Sudah Dibayar'"
           :image="paypal"
@@ -64,7 +64,7 @@ const formatRupiah = value => {
       </VCol>
 
       <!-- Transactions -->
-      <VCol cols="3" md="3" sm="6">
+      <VCol cols="12" md="3" sm="6">
         <CardStatisticsVertical
          :title="'Belum Dibayar'"
           :image="card"

@@ -363,7 +363,7 @@ class BahanKemasanController extends Controller
             ->join('cms_bahan_kemasans as d', 'b.kemasan_id', '=', 'd.id')
             ->join('cms_vendors as e', 'b.vendor_id', '=', 'e.id')
             ->where('a.qty','>',0)
-            ->groupBy('a.restock_log_id')
+            ->groupBy('a.restock_log_id','d.category','d.id','d.harga')
             ->orderBy('tanggal_masuk', 'asc')
             ->get();
 
